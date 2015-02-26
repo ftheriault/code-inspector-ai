@@ -15,11 +15,13 @@ console.log("---------------------------------");
 console.log("        Server loaded");
 console.log("---------------------------------");
 
+
+var CodeUpdateListener = require('./inspector/CodeUpdateListener');
+global.codeUpdateListeners = [];
+
 function tick() {
-	if (Math.random() < 0.01) {
-		for (var i = 0; i < wsServer.clients.length; i++) {
-			wsServer.clients[i].send("Hello client!");
-		}
+	for (var i = 0; i < global.codeUpdateListeners.length; i++) {
+		global.codeUpdateListeners[i].tick();
 	}
 
 	setTimeout(tick, 1000);

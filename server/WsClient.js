@@ -1,14 +1,20 @@
+var CodeUpdateListener = require('./inspector/CodeUpdateListener');
+
 module.exports = WsClient = function(ws) {
 	this.ws = ws;
-
-	console.log("- New client connected");
+	this.listener = null;
 
 	this.messageRecieved = function (message) {
-		console.log("- Recieved from client : " + message);
+		var msg = JSON.parse(message);
+
+		if (msg.type == "directory") {
+			this.listener = new CodeUpdateListener(msg.data, this);
+			global.codeUpdateListeners.push(this.listener);
+		}
 	}
 
 	this.connectionClosed = function () {
-		console.log("- Client WebSocket closed");
+		this.listener.close();
 	}
 
 	this.send = function (message) {
