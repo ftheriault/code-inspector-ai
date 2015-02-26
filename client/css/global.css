@@ -10,12 +10,12 @@ html {
 
 h1 {
 	text-align: center;
-	margin:50px 0;
+	margin:10px 0;
 }
 
 #container {
 	width:900px;
-	margin:40px auto;
+	margin:10px auto;
 	border:1px solid white;
 }
 

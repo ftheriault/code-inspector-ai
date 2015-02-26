@@ -3,14 +3,20 @@ function InspectorAI() {
 	this.voice = null;
 	this.currentlySaying = null;
 
+	this.drawCounter = 0;
+	this.drawOpacity = 0;
+	this.drawWantedOpacity = 0.3;
+
 	if (window.speechSynthesis != null) {
 		window.speechSynthesis.onvoiceschanged = function() {
 			voices = window.speechSynthesis.getVoices();
 			voice = voices[0];		
 
 			if (inspector.voice == null) {
-				inspector.voice = voice;
-				inspector.connect();
+				setTimeout(function () {
+					inspector.voice = voice;
+					inspector.connect();
+				}, 2000);
 			}
 		}
 	}	
@@ -120,9 +126,30 @@ InspectorAI.prototype.prompt = function(msg) {
 }
 
 InspectorAI.prototype.tick = function() {
+	ctx.save();
+
 	if (this.currentlySaying != null) {
 		ctx.font = "14px ";	
 		ctx.fillStyle = "white";	
 		ctx.fillText(this.currentlySaying, 20, 20);
+		this.drawCounter += 0.01;
+		this.drawWantedOpacity = 0.8;
 	}
+	else {
+		this.drawWantedOpacity = 0.3;
+	}
+
+	if (this.drawOpacity < this.drawWantedOpacity) {
+		this.drawOpacity += 0.01;
+	}
+	else if (this.drawOpacity > this.drawWantedOpacity) {
+		this.drawOpacity -= 0.01;	
+	}
+
+	ctx.translate(450, 200);
+	ctx.rotate(this.drawCounter);
+
+	ctx.fillStyle = "rgba(30, 30, 200, " + this.drawOpacity + ")";
+	ctx.fillRect(-100, -100, 200, 200);
+	ctx.restore();
 }
