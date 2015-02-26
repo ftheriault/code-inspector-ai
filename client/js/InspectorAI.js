@@ -1,6 +1,7 @@
 function InspectorAI() {
 	this.ws = null;
 	this.voice = null;
+	this.currentlySaying = null;
 
 	if (window.speechSynthesis != null) {
 		window.speechSynthesis.onvoiceschanged = function() {
@@ -31,11 +32,19 @@ InspectorAI.prototype.speak = function(text, endCallback) {
 
 		msg.text = text;
 
-		if (endCallback != undefined) {
-			msg.onend = endCallback;	
-		}
+		msg.onend = function (event) {
+			inspector.currentlySaying = null;
 
-		speechSynthesis.speak(msg);
+			if (endCallback != undefined) {
+				endCallback();				
+			}
+		};	
+
+		setTimeout(function() {
+			speechSynthesis.speak(msg);
+			inspector.currentlySaying = text;
+		}, 100);
+		
 	}
 	else {
 		console.log(text);
@@ -44,6 +53,7 @@ InspectorAI.prototype.speak = function(text, endCallback) {
 }
 
 InspectorAI.prototype.connect = function() {	
+
 	this.speak("Sir, I'll need to know where you code before we start", function () {
 		var directory = prompt("Enter directory");
 
@@ -72,7 +82,6 @@ InspectorAI.prototype.connect = function() {
 			inspector.speak("Oh, so I guess there is nothing to be done here...");
 		}
 	});
-
 }
 
 InspectorAI.prototype.sendMessage = function(type, text) {
@@ -85,6 +94,35 @@ InspectorAI.prototype.sendMessage = function(type, text) {
 }
 
 InspectorAI.prototype.digestMessage = function(serverMessage) {
-	console.log(serverMessage);
+	serverMessage = JSON.parse(serverMessage);
+
+	if (serverMessage.type == "err") {
+		this.speak("Sir, the server has just thrown an error, I have written it to you : ");
+		this.prompt(serverMessage);
+	}
+	else {
+		for (var i = 0; i < logicList.length; i++) {
+			logicList[i].analyze(serverMessage.type, serverMessage.data);
+		}
+	}	
 }
 
+InspectorAI.prototype.prompt = function(msg) {
+	var element = document.createElement("div");
+	element.className = "prompt";
+	element.innerHTML = msg;
+
+	element.onclick = function () {
+		document.body.removeChild(element);
+	}
+	
+	document.body.appendChild(element);
+}
+
+InspectorAI.prototype.tick = function() {
+	if (this.currentlySaying != null) {
+		ctx.font = "14px ";	
+		ctx.fillStyle = "white";	
+		ctx.fillText(this.currentlySaying, 20, 20);
+	}
+}

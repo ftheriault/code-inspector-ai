@@ -19,12 +19,21 @@ h1 {
 	border:1px solid white;
 }
 
-#canvas {
-	width: 900px;
-	height:400px;
-}
-
 #container div {
 	font-size: 15px;
 	font-weight: bold;
+}
+
+.prompt {
+	padding:10px;
+	border-radius:4px;
+	width:500px;
+	opacity:0.8;
+	min-height:200px;
+	border:2px solid black;
+	background-color: #bbb;
+	position: absolute;
+	top:10px;
+	left:10px;
+	color:black;
 }
