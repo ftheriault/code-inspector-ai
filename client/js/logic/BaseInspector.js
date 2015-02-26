@@ -1,4 +1,4 @@
-function BaseInspector(author, description, textArray) {
+function BaseInspector(author, description) {
 	this.author = author;
 	this.description = description;
 
