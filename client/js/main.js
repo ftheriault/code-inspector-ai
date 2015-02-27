@@ -3,13 +3,20 @@ var ctx = null;
 var serverLocation = 'localhost:8081';
 
 var inspector = null;
+var logicFileList = [];
 var logicList = [];
 
-logicList.push("FileInspector");
+logicFileList.push("FileConventionInspector");
 
-for (var i = 0; i < logicList.length; i++) {
-	$.getScript("js/logic/" + logicList[i] + ".js");
+for (var i = 0; i < logicFileList.length; i++) {
+	loadFile(logicFileList[i]);
 };
+
+function loadFile(name) {
+	$.getScript("js/logic/" + name + ".js", function () {
+		logicList.push(eval("new " + name + "()"));
+	});
+}
 
 window.onload = function () {
 	container = document.getElementById("container");

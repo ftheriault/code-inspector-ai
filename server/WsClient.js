@@ -18,6 +18,6 @@ module.exports = WsClient = function(ws) {
 	}
 
 	this.send = function (message) {
-		this.ws.send(message);
+		this.ws.send(JSON.stringify(message));
 	}
 }

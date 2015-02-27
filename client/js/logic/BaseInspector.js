@@ -7,6 +7,6 @@ function BaseInspector(author, description) {
 	}
 }
 
-BaseInspector.prototype.analyze = function(event, text) {
+BaseInspector.prototype.analyze = function(event) {
 	// redefine in children
 };

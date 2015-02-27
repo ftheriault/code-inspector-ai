@@ -76,7 +76,7 @@ InspectorAI.prototype.connect = function() {
 			}
 
 			inspector.ws.onclose = function(){
-				inspector.speak("Sir, the server has shutdown...");
+				inspector.speak("Sir, I have lost sight to your code (the server has shutdown...)");
 			}
 
 			inspector.ws.onerror = function(error){
@@ -106,9 +106,12 @@ InspectorAI.prototype.digestMessage = function(serverMessage) {
 		this.speak("Sir, the server has just thrown an error, I have written it to you : ");
 		this.prompt(serverMessage);
 	}
+	else if (serverMessage.type == "info") {
+		this.speak("Sir, I need to tell you that " + serverMessage.info);
+	}
 	else {
 		for (var i = 0; i < logicList.length; i++) {
-			logicList[i].analyze(serverMessage.type, serverMessage.data);
+			logicList[i].analyze(serverMessage);
 		}
 	}	
 }
@@ -129,7 +132,7 @@ InspectorAI.prototype.tick = function() {
 	ctx.save();
 
 	if (this.currentlySaying != null) {
-		ctx.font = "14px ";	
+		ctx.font = "16px ";	
 		ctx.fillStyle = "white";	
 		ctx.fillText(this.currentlySaying, 20, 20);
 		this.drawCounter += 0.01;
