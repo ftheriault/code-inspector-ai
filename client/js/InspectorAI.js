@@ -15,14 +15,14 @@ function InspectorAI() {
 			if (inspector.voice == null) {
 				setTimeout(function () {
 					inspector.voice = voice;
-					inspector.connect();
+					inspector.initialize();
 				}, 2000);
 			}
 		}
 	}	
 	else {
 		alert("Speech synthesis is not supported (try using Chrome)");
-		this.connect();
+		this.initialize();
 	}
 }
 
@@ -58,36 +58,57 @@ InspectorAI.prototype.speak = function(text, endCallback) {
 	}
 }
 
-InspectorAI.prototype.connect = function() {	
+InspectorAI.prototype.initialize = function() {	
+	if (localStorage["inspectorDirectory"] != null) {
+		this.speak("Welcome back sir, do you wish to continue where you were?", function () {
+			if (confirm("Continue working in : " + localStorage["inspectorDirectory"])) {
+				inspector.connect(localStorage["inspectorDirectory"]);
+			}
+			else {
+				inspector.needDirectory();
+			}
+		});
+	}
+	else {
+		this.needDirectory();
+	}
+}
 
+InspectorAI.prototype.needDirectory = function() {	
 	this.speak("Sir, I'll need to know where you code before we start", function () {
 		var directory = prompt("Enter directory");
 
 		if (directory != null) {
-			inspector.ws = new WebSocket('ws://' + serverLocation);
-
-			inspector.ws.onopen = function(){
-				inspector.sendMessage("directory", directory);
-			}
-
-			inspector.ws.onmessage = function(e){
-				var serverMessage = e.data;
-				inspector.digestMessage(serverMessage);
-			}
-
-			inspector.ws.onclose = function(){
-				inspector.speak("Sir, I have lost sight to your code (the server has shutdown...)");
-			}
-
-			inspector.ws.onerror = function(error){
-				inspector.speak("Sir, the connection was broken, for some reason...");
-				console.log('Error detected: ' + error);
-			}
+			inspector.connect(directory);
 		}
 		else {
 			inspector.speak("Oh, so I guess there is nothing to be done here...");
 		}
 	});
+}
+
+InspectorAI.prototype.connect = function(directory) {	
+	localStorage.setItem("inspectorDirectory", directory);
+
+	this.ws = new WebSocket('ws://' + serverLocation);
+
+	this.ws.onopen = function(){
+		inspector.sendMessage("directory", directory);
+	}
+
+	this.ws.onmessage = function(e){
+		var serverMessage = e.data;
+		inspector.digestMessage(serverMessage);
+	}
+
+	this.ws.onclose = function(){
+		inspector.speak("Sir, I have lost sight to your code (the server has shutdown...)");
+	}
+
+	this.ws.onerror = function(error){
+		inspector.speak("Sir, the connection was broken, for some reason...");
+		console.log('Error detected: ' + error);
+	}
 }
 
 InspectorAI.prototype.sendMessage = function(type, text) {
@@ -107,7 +128,7 @@ InspectorAI.prototype.digestMessage = function(serverMessage) {
 		this.prompt(serverMessage);
 	}
 	else if (serverMessage.type == "info") {
-		this.speak("Sir, I need to tell you that " + serverMessage.info);
+		this.speak("I need to tell you that " + serverMessage.info);
 	}
 	else {
 		for (var i = 0; i < logicList.length; i++) {

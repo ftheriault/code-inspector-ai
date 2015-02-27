@@ -8,5 +8,7 @@ FileConventionInspector.prototype = new BaseInspector();
 FileConventionInspector.prototype.constructor = FileConventionInspector;
 
 FileConventionInspector.prototype.analyze = function(event) {
-	console.log(event);
+	if (event.fileName.charAt(0).toUpperCase() != event.fileName) {
+		this.notify(event.fileName, "Since Java is object oriented, the first letter of a class file should be capitalized.");
+	}
 };

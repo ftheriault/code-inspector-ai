@@ -1,11 +1,19 @@
 function BaseInspector(author, description) {
 	this.author = author;
 	this.description = description;
-
-	if (this.author === "") {
-		this.author = null;
-	}
+	this.alreadyNotifiedEvents = {};
 }
+
+BaseInspector.prototype.alreadyNotified = function(key) {
+	return this.alreadyNotifiedEvents[key] != null;
+};
+
+BaseInspector.prototype.notify = function(key, speech) {
+	if (!this.alreadyNotified(key)) {
+		inspector.speak(speech);
+		this.alreadyNotifiedEvents[key] = "1";
+	}
+};
 
 BaseInspector.prototype.analyze = function(event) {
 	// redefine in children
