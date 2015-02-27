@@ -20,7 +20,7 @@ public class Main {
 		int portNumber = 8000;
 		long start = System.currentTimeMillis();
 
-		try {
+		try { 
 		    Socket socket = new Socket(hostName, portNumber);
 		    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 		    
@@ -38,18 +38,15 @@ public class Main {
 			FrameImage img = new FrameImage(array);
 			img.setVisible(true);
 			img.repaint();
-			
+ 
+
 			// If received As JPG
 			//BufferedImage image = ImageIO.read(socket.getInputStream());
 			//ImageIO.write(image, "jpg", new File("test.jpg"));
 
-
-			
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	
 }

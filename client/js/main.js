@@ -6,7 +6,8 @@ var inspector = null;
 var logicFileList = [];
 var logicList = [];
 
-logicFileList.push("FileConventionInspector");
+logicFileList.push("FileNamingInspector");
+logicFileList.push("SpacingInspector");
 
 for (var i = 0; i < logicFileList.length; i++) {
 	loadFile(logicFileList[i]);

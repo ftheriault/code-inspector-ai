@@ -1,7 +1,7 @@
 function InspectorAI() {
 	this.ws = null;
 	this.voice = null;
-	this.currentlySaying = null;
+	this.currentlySaying = [];
 
 	this.drawCounter = 0;
 	this.drawOpacity = 0;
@@ -39,7 +39,7 @@ InspectorAI.prototype.speak = function(text, endCallback) {
 		msg.text = text;
 
 		msg.onend = function (event) {
-			inspector.currentlySaying = null;
+			inspector.currentlySaying.splice(0, 1);
 
 			if (endCallback != undefined) {
 				endCallback();				
@@ -48,7 +48,7 @@ InspectorAI.prototype.speak = function(text, endCallback) {
 
 		setTimeout(function() {
 			speechSynthesis.speak(msg);
-			inspector.currentlySaying = text;
+			inspector.currentlySaying.push(text);
 		}, 100);
 		
 	}
@@ -152,10 +152,14 @@ InspectorAI.prototype.prompt = function(msg) {
 InspectorAI.prototype.tick = function() {
 	ctx.save();
 
-	if (this.currentlySaying != null) {
-		ctx.font = "16px ";	
+	if (this.currentlySaying.length != 0) {
+		ctx.font = "16px Arial";	
 		ctx.fillStyle = "white";	
-		ctx.fillText(this.currentlySaying, 20, 20);
+
+		for (var i = 0; i < this.currentlySaying.length; i++) {
+			ctx.fillText(this.currentlySaying[i], 20, 20 + i * 20);
+		}
+
 		this.drawCounter += 0.01;
 		this.drawWantedOpacity = 0.8;
 	}
