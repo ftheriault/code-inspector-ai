@@ -1,5 +1,5 @@
 package com.aifuture.pi.test;
-  
+
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -10,8 +10,8 @@ import java.net.Socket;
 
 import javax.imageio.ImageIO;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
+import org.json.simple.JSONArray; 
+import org.json.simple.JSONValue;    
 
 public class Main {
 

@@ -3,6 +3,7 @@ var fs = require("fs");
 
 module.exports = CodeUpdateListener = function (directory, wsClient) {
 	var self = this;
+	this.maxLookupDepth = 4;
 	this.directory = directory;
 	this.wsClient = wsClient;
 	this.knownFiles = {};
@@ -14,20 +15,34 @@ module.exports = CodeUpdateListener = function (directory, wsClient) {
 	});
  
 	this.tick = function () {
-		var files = fs.readdirSync(this.directory); 
+		this.scanDirectory(this.directory, 0);
+	}
+
+	this.scanDirectory = function(dir, depth) {
+		var files = fs.readdirSync(dir); 
 
 		for (var i in files) {
-			var file = this.directory + "/" + files[i];  
-			
-			var stats = fs.statSync(file);
+			var file = files[i];
+			var fullPath = dir + "/" + file;
+			var stats = fs.statSync(fullPath);
 
-			if (stats.size > 5) { // more than five bytes or skip file
-				if (self.knownFiles[file] != null && self.knownFiles[file] != stats.mtime + "") {
-					self.fileModified(file, files[i]); 
-				}
+			if (stats.isFile() && path.extname(file) == ".java") {
+				this.verifyFile(fullPath, file, stats);
+			}
+			else if (stats.isDirectory() && depth <= this.maxLookupDepth) {
+				this.scanDirectory(fullPath, depth + 1);
+			}
+		}
+	}
 
-				self.knownFiles[file] = stats.mtime + "";
-			}		    
+	this.verifyFile = function(fullPath, file, stats) {	
+
+		if (stats.size > 5) { // more than five bytes or skip file			
+			if (self.knownFiles[fullPath] != null && self.knownFiles[fullPath] != stats.mtime + "") {
+				self.fileModified(fullPath, file); 
+			}
+
+			self.knownFiles[fullPath] = stats.mtime + "";
 		}
 	}
 
