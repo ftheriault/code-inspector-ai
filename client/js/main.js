@@ -3,19 +3,34 @@ var ctx = null;
 var serverLocation = 'localhost:8081';
 
 var inspector = null;
+var profileFileList = [];
+var profileList = [];
 var logicFileList = [];
 var logicList = [];
+
+profileFileList.push("ProfileJava");
+profileFileList.push("ProfileRuby");
 
 logicFileList.push("FileNamingInspector");
 logicFileList.push("SpacingInspector");
 
 for (var i = 0; i < logicFileList.length; i++) {
-	loadFile(logicFileList[i]);
+	loadLogicFile(logicFileList[i]);
 };
 
-function loadFile(name) {
+function loadLogicFile(name) {
 	$.getScript("js/logic/" + name + ".js", function () {
 		logicList.push(eval("new " + name + "()"));
+	});
+}
+
+for (var i = 0; i < profileFileList.length; i++) {
+	loadProfileFile(profileFileList[i]);
+};
+
+function loadProfileFile(name) {
+	$.getScript("js/profile/" + name + ".js", function () {
+		profileList.push(eval("new " + name + "()"));
 	});
 }
 

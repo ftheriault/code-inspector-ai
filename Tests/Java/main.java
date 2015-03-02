@@ -16,12 +16,12 @@ import org.json.simple.JSONValue;
 public class Main {
 
 	public static void main(String[] args) {
-		String hostName = "192.168.1.115";
+		String host_name = "192.168.1.115";
 		int portNumber = 8000;
 		long start = System.currentTimeMillis();
 
 		try {
-		    Socket socket = new Socket(hostName, portNumber);
+		    Socket socket = new Socket(host_name, portNumber);
 		    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
 		    System.out.println("---------------------------");

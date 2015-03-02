@@ -7,8 +7,8 @@ module.exports = WsClient = function(ws) {
 	this.messageRecieved = function (message) {
 		var msg = JSON.parse(message);
 
-		if (msg.type == "directory") {
-			this.listener = new CodeUpdateListener(msg.data, this);
+		if (msg.type == "setup") {
+			this.listener = new CodeUpdateListener(msg.data.directory, msg.data.lang, msg.data.fileExtensions, this);
 			global.codeUpdateListeners.push(this.listener);
 		}
 	}

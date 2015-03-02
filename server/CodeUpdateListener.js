@@ -1,19 +1,21 @@
 var path = require('path')
 var fs = require("fs");
 
-module.exports = CodeUpdateListener = function (directory, wsClient) {
+module.exports = CodeUpdateListener = function (directory, lang, fileExtensions, wsClient) {
 	var self = this;
 	this.maxLookupDepth = 4;
 	this.directory = directory;
+	this.lang = lang;
+	this.fileExtensions = fileExtensions;
 	this.wsClient = wsClient;
 	this.knownFiles = {};
 
-	console.log("- New listener on : " + directory);
+	console.log("- New listener on : " + directory + " (" + lang + ")");
 	this.wsClient.send({
 		type : "info",
-		info : "I can only understand Java. Otherwise I'm ready!"
+		info : "Ok, I'm ready!"
 	});
- 
+	 
 	this.tick = function () {
 		this.scanDirectory(this.directory, 0);
 	}
@@ -26,7 +28,7 @@ module.exports = CodeUpdateListener = function (directory, wsClient) {
 			var fullPath = dir + "/" + file;
 			var stats = fs.statSync(fullPath);
 
-			if (stats.isFile() && path.extname(file) == ".java") {
+			if (stats.isFile() && this.fileExtensions.indexOf(path.extname(file)) >= 0) {
 				this.verifyFile(fullPath, file, stats);
 			}
 			else if (stats.isDirectory() && depth <= this.maxLookupDepth) {

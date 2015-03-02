@@ -1,6 +1,7 @@
-function BaseInspector(author, description) {
+function BaseInspector(author, description, supportedProfiles) {
 	this.author = author;
 	this.description = description;
+	this.supportedProfiles = supportedProfiles;
 	this.alreadyNotifiedEvents = {};
 }
 

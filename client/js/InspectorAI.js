@@ -2,6 +2,7 @@ function InspectorAI() {
 	this.ws = null;
 	this.voice = null;
 	this.currentlySaying = [];
+	this.profile = null;
 
 	this.drawCounter = 0;
 	this.drawOpacity = 0;
@@ -73,7 +74,7 @@ InspectorAI.prototype.initialize = function() {
 	if (localStorage["inspectorDirectory"] != null) {
 		this.speak("Welcome back sir, do you wish to continue where you were?", function () {
 			if (confirm("Continue working in : " + localStorage["inspectorDirectory"])) {
-				inspector.connect(localStorage["inspectorDirectory"]);
+				inspector.connect(localStorage["inspectorDirectory"], localStorage["inspectorLang"], localStorage["inspectorFileExtensions"]);
 			}
 			else {
 				inspector.needDirectory();
@@ -90,7 +91,23 @@ InspectorAI.prototype.needDirectory = function() {
 		var directory = prompt("Enter directory");
 
 		if (directory != null) {
-			inspector.connect(directory);
+			inspector.speak("I also need to know which language you will be using", function () {
+				var profileStr = "";
+
+				for (var i = 0; i < profileList.length; i++) {
+					profileStr += (i+1) + " - " + profileList[i].language + "\n";
+				}
+
+				var lang = prompt("Choose language (enter number) :\n" + profileStr);				
+				var profile = profileList[lang - 1];
+
+				if (profile != null) {
+					inspector.connect(directory, profile.language, profile.fileExtensions);
+				}
+				else {
+					inspector.speak("Oh, well, too bad. I won't be able to help you");
+				}
+			});
 		}
 		else {
 			inspector.speak("Oh, so I guess there is nothing to be done here...");
@@ -98,13 +115,20 @@ InspectorAI.prototype.needDirectory = function() {
 	});
 }
 
-InspectorAI.prototype.connect = function(directory) {	
+InspectorAI.prototype.connect = function(directory, lang, fileExtensions) {	
+	this.lang = lang;
 	localStorage.setItem("inspectorDirectory", directory);
+	localStorage.setItem("inspectorLang", lang);
+	localStorage.setItem("inspectorFileExtensions", fileExtensions);
 
 	this.ws = new WebSocket('ws://' + serverLocation);
 
 	this.ws.onopen = function(){
-		inspector.sendMessage("directory", directory);
+		inspector.sendMessage("setup", {
+						directory : directory,
+						lang : lang,
+						fileExtensions : fileExtensions
+					});
 	}
 
 	this.ws.onmessage = function(e){
@@ -145,14 +169,16 @@ InspectorAI.prototype.digestMessage = function(serverMessage) {
 		this.prompt(serverMessage);
 	}
 	else if (serverMessage.type == "info") {
-		this.speak("I need to tell you that " + serverMessage.info);
+		this.speak(serverMessage.info);
 	}
 	else {
 		this.drawBlueLevel = 30;
 		this.drawGreenLevel = 255;
 
 		for (var i = 0; i < logicList.length; i++) {
-			logicList[i].analyze(serverMessage);
+			if (logicList[i].supportedProfiles.indexOf(this.lang) >= 0) {
+				logicList[i].analyze(serverMessage);
+			}
 		}
 	}	
 }
