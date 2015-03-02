@@ -1,3 +1,12 @@
+/**
+	HTTP server
+
+	This is a wrapper for a HTTP server, listening on a wanted port. It 
+	delivers files taken from the client directory.
+
+	@author 	Frederic Theriault
+*/
+
 var url = require("url");
 var path = require("path");
 var fs = require("fs");

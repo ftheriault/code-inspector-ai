@@ -1,3 +1,13 @@
+/**
+	main file
+
+	Starts the HTTP and WebSocket server. Also ticks constantly, 
+	to trigger a code update lookup from the listener
+
+	@author 	Frederic Theriault
+*/
+
+
 console.log("=================================");
 
 // Creating HTTP server

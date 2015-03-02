@@ -1,3 +1,11 @@
+/**
+	WebSocket Client
+
+	Client socket, triggering wanted actions upon web socket events.
+
+	@author 	Frederic Theriault
+*/
+
 var CodeUpdateListener = require('./CodeUpdateListener');
 
 module.exports = WsClient = function(ws) {

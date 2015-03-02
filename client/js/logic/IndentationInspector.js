@@ -1,3 +1,10 @@
+/**
+	Indentation Inspector
+
+	Checking code indentation
+
+	@author 	Frederic Theriault
+*/
 function IndentationInspector() {
 	BaseInspector.call(this, 
 				"",

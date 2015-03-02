@@ -1,3 +1,10 @@
+/**
+	Base Inspector
+
+	Base class (parent) for all inspector
+
+	@author 	Frederic Theriault
+*/
 function BaseInspector(author, description, supportedProfiles) {
 	this.author = author;
 	this.description = description;

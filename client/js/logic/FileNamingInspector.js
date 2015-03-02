@@ -1,3 +1,10 @@
+/**
+	File naming inspector
+
+	Making sure class file name starts with a capital letter
+
+	@author 	Frederic Theriault
+*/
 function FileNamingInspector() {
 	BaseInspector.call(this, 
 				"Frederic Theriault",

@@ -1,3 +1,12 @@
+/**
+	Code file listener
+
+	This file constantly checks for any code update from the wanted directory (and below).
+	Upon code changes, the listener notifies the client (wsClient) with the changes.
+
+	@author 	Frederic Theriault
+*/
+
 var path = require('path')
 var fs = require("fs");
 

@@ -1,3 +1,13 @@
+/**
+	WebSocket server
+
+	This is a wrapper for a WebSocket server, listening on a wanted port. It creates
+	wsClients when a new connection is set.
+
+	@author 	Frederic Theriault
+*/
+
+
 var WebSocketServer = require('ws').Server;
 var WsClient = require("./WsClient");
 

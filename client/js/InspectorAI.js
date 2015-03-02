@@ -1,3 +1,12 @@
+/**
+	Inspector AI
+
+	This class represents the AI, making the interaction with the user. It is
+	responsible of both rendering the AI user interface and managing events.
+
+	@author 	Frederic Theriault
+*/
+
 function InspectorAI() {
 	this.ws = null;
 	this.voice = null;

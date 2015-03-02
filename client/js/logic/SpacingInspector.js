@@ -1,3 +1,10 @@
+/**
+	Spacing Inspector
+
+	Checking empty lines in code files
+
+	@author 	Frederic Theriault
+*/
 function SpacingInspector() {
 	BaseInspector.call(this, 
 				"Frederic Theriault",

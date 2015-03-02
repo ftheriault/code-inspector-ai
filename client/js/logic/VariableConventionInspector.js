@@ -1,3 +1,10 @@
+/**
+	Variable naming Inspector
+
+	Checking variable convention
+
+	@author 	Frederic Theriault
+*/
 function VariableConventionInspector() {
 	BaseInspector.call(this, 
 				"",

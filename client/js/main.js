@@ -1,3 +1,10 @@
+/**
+	main file
+
+	Responsible for loading appropriate files and starting the AI. 
+
+	@author 	Frederic Theriault
+*/
 var container = null;
 var ctx = null;
 var serverLocation = 'localhost:8081';
@@ -15,6 +22,7 @@ logicFileList.push("FileNamingInspector");
 logicFileList.push("SpacingInspector");
 logicFileList.push("VariableConventionInspector");
 logicFileList.push("IndentationInspector");
+logicFileList.push("LineLengthInspector");
 
 for (var i = 0; i < logicFileList.length; i++) {
 	loadLogicFile(logicFileList[i]);
