@@ -1,7 +1,7 @@
 function FileNamingInspector() {
 	BaseInspector.call(this, 
 				"Frederic Theriault",
-				"Check that the file name is valid and follows convention",
+				"Checks that the file name is valid and follows convention",
 				["Java", "Ruby"]);
 }
 

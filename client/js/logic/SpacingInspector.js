@@ -1,7 +1,7 @@
 function SpacingInspector() {
 	BaseInspector.call(this, 
 				"Frederic Theriault",
-				"Check the number succeeding of returns (newlines) in code",
+				"Checks the number succeeding of returns (newlines) in code",
 				["Java", "Ruby"]);
 }
 

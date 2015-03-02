@@ -13,6 +13,8 @@ profileFileList.push("ProfileRuby");
 
 logicFileList.push("FileNamingInspector");
 logicFileList.push("SpacingInspector");
+logicFileList.push("VariableConventionInspector");
+logicFileList.push("IndentationInspector");
 
 for (var i = 0; i < logicFileList.length; i++) {
 	loadLogicFile(logicFileList[i]);

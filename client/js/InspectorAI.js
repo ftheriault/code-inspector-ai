@@ -90,7 +90,7 @@ InspectorAI.prototype.needDirectory = function() {
 	this.speak("Sir, I'll need to know where you code before we start", function () {
 		var directory = prompt("Enter directory");
 
-		if (directory != null) {
+		if (directory != null && directory.trim().length > 0) {
 			inspector.speak("I also need to know which language you will be using", function () {
 				var profileStr = "";
 
