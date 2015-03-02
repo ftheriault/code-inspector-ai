@@ -1,5 +1,5 @@
 package com.aifuture.pi.test;
-  
+
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -20,25 +20,25 @@ public class Main {
 		int portNumber = 8000;
 		long start = System.currentTimeMillis();
 
-		try { 
+		try {
 		    Socket socket = new Socket(hostName, portNumber);
 		    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-		    
+
 		    System.out.println("---------------------------");
-			
+
 			String line = null;
 			BufferedReader  reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			line = reader.readLine();
 
 			System.out.println("---------------------------");
 			System.out.println("Msec = " + (System.currentTimeMillis() - start));
-			
+
 			Object obj=JSONValue.parse(line);
 			JSONArray array=(JSONArray)obj;
 			FrameImage img = new FrameImage(array);
 			img.setVisible(true);
 			img.repaint();
- 
+
 
 			// If received As JPG
 			//BufferedImage image = ImageIO.read(socket.getInputStream());

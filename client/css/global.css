@@ -15,14 +15,23 @@ h1 {
 }
 
 #container {
-	width:900px;
+	width:880px;
+	height:380px;
+	padding:10px;
 	margin:10px auto;
 	border:1px solid white;
+	position: relative;
 }
 
-#container div {
-	font-size: 15px;
-	font-weight: bold;
+.spoken-item {
+	font-size:16px;
+	font-family: Arial;
+}
+
+canvas {
+	position:absolute;
+	top:0;
+	left:0;
 }
 
 .prompt {

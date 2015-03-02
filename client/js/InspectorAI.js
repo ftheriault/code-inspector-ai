@@ -7,6 +7,10 @@ function InspectorAI() {
 	this.drawOpacity = 0;
 	this.drawWantedOpacity = 0.3;
 
+	this.drawGreenLevel = 30;
+	this.drawRedLevel = 30;
+	this.drawBlueLevel = 200;
+
 	if (window.speechSynthesis != null) {
 		window.speechSynthesis.onvoiceschanged = function() {
 			voices = window.speechSynthesis.getVoices();
@@ -36,10 +40,12 @@ InspectorAI.prototype.speak = function(text, endCallback) {
 		msg.pitch = 0; 		//0 to 2
 		msg.lang = 'en-US';
 
-		msg.text = text;
+		var strippedString = text.replace(/(<([^>]+)>)/ig,"");
+		msg.text = strippedString;
 
 		msg.onend = function (event) {
-			inspector.currentlySaying.splice(0, 1);
+			var divs = inspector.currentlySaying.splice(0, 1);
+			document.getElementById("container").removeChild(divs[0]);
 
 			if (endCallback != undefined) {
 				endCallback();				
@@ -47,8 +53,13 @@ InspectorAI.prototype.speak = function(text, endCallback) {
 		};	
 
 		setTimeout(function() {
+			var div = document.createElement("div");
+			div.className = "spoken-item";
+			div.innerHTML = text;
+			document.getElementById("container").appendChild(div);
+
 			speechSynthesis.speak(msg);
-			inspector.currentlySaying.push(text);
+			inspector.currentlySaying.push(div);
 		}, 100);
 		
 	}
@@ -103,11 +114,15 @@ InspectorAI.prototype.connect = function(directory) {
 
 	this.ws.onclose = function(){
 		inspector.speak("Sir, I have lost sight to your code (the server has shutdown...)");
+		inspector.drawRedLevel = 255;
+		inspector.drawBlueLevel = 30;
 	}
 
 	this.ws.onerror = function(error){
 		inspector.speak("Sir, the connection was broken, for some reason...");
 		console.log('Error detected: ' + error);
+		inspector.drawRedLevel = 255;
+		inspector.drawBlueLevel = 30;
 	}
 }
 
@@ -124,6 +139,8 @@ InspectorAI.prototype.digestMessage = function(serverMessage) {
 	serverMessage = JSON.parse(serverMessage);
 
 	if (serverMessage.type == "err") {
+		this.drawBlueLevel = 30;
+		this.drawRedLevel = 255;
 		this.speak("Sir, the server has just thrown an error, I have written it to you : ");
 		this.prompt(serverMessage);
 	}
@@ -131,6 +148,9 @@ InspectorAI.prototype.digestMessage = function(serverMessage) {
 		this.speak("I need to tell you that " + serverMessage.info);
 	}
 	else {
+		this.drawBlueLevel = 30;
+		this.drawGreenLevel = 255;
+
 		for (var i = 0; i < logicList.length; i++) {
 			logicList[i].analyze(serverMessage);
 		}
@@ -153,15 +173,8 @@ InspectorAI.prototype.tick = function() {
 	ctx.save();
 
 	if (this.currentlySaying.length != 0) {
-		ctx.font = "16px Arial";	
-		ctx.fillStyle = "white";	
-
-		for (var i = 0; i < this.currentlySaying.length; i++) {
-			ctx.fillText(this.currentlySaying[i], 20, 20 + i * 20);
-		}
-
-		this.drawCounter += 0.01;
 		this.drawWantedOpacity = 0.8;
+		this.drawCounter += 0.01;
 	}
 	else {
 		this.drawWantedOpacity = 0.3;
@@ -174,10 +187,22 @@ InspectorAI.prototype.tick = function() {
 		this.drawOpacity -= 0.01;	
 	}
 
+	if (this.drawRedLevel > 30) {
+		this.drawRedLevel -= 1;
+	}
+
+	if (this.drawGreenLevel > 30) {
+		this.drawGreenLevel -= 1;
+	}
+
+	if (this.drawBlueLevel < 200) {
+		this.drawBlueLevel += 1;
+	}
+
 	ctx.translate(450, 200);
 	ctx.rotate(this.drawCounter);
 
-	ctx.fillStyle = "rgba(30, 30, 200, " + this.drawOpacity + ")";
+	ctx.fillStyle = "rgba(" + this.drawRedLevel + ", " + this.drawGreenLevel + ", " + this.drawBlueLevel + ", " + this.drawOpacity + ")";
 	ctx.fillRect(-100, -100, 200, 200);
 	ctx.restore();
 }

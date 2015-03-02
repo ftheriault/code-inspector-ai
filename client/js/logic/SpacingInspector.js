@@ -16,7 +16,7 @@ SpacingInspector.prototype.analyze = function(event) {
 	    	returnCount++;
 
 	    	if (returnCount == 2) {
-	    		this.notify(event.fileName, "I strongly suggest never multiple returns to separate code. One is enough")
+	    		this.notify(event.fileName, "<b>At line " + i + "</b>, it is not necessary to put multiple blank lines. One is enough.")
 	    		break;
 	    	}
 	    }

@@ -16,7 +16,7 @@ console.log("        Server loaded");
 console.log("---------------------------------");
 
 
-var CodeUpdateListener = require('./inspector/CodeUpdateListener');
+var CodeUpdateListener = require('./CodeUpdateListener');
 global.codeUpdateListeners = [];
 
 function tick() {

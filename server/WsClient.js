@@ -1,4 +1,4 @@
-var CodeUpdateListener = require('./inspector/CodeUpdateListener');
+var CodeUpdateListener = require('./CodeUpdateListener');
 
 module.exports = WsClient = function(ws) {
 	this.ws = ws;
