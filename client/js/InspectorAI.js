@@ -75,7 +75,10 @@ InspectorAI.prototype.speak = function(text, endCallback) {
 	}
 	else {
 		console.log(text);
-		endCallback();
+
+		if (endCallback != undefined) {
+			endCallback();
+		}
 	}
 }
 
