@@ -3,11 +3,7 @@ Proof of concept of an artificial intelligence inspecting and commenting on the 
 
 ## Installation
 
-Make sure have installed `node.js` on your computer, then install `ws` using the following in the root directory of your project
-
-```
-npm install --save ws
-```
+You only need to make sure `node.js` is installed  on your computer.
 
 # Usage
 
