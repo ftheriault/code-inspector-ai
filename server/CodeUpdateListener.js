@@ -52,9 +52,9 @@ module.exports = CodeUpdateListener = function (directory, lang, fileExtensions,
 			if (self.knownFiles[fullPath] != null && self.knownFiles[fullPath] != stats.mtime + "") {
 				self.fileModified(fullPath, file); 
 			}
+        }
 
-			self.knownFiles[fullPath] = stats.mtime + "";
-		}
+		self.knownFiles[fullPath] = stats.mtime + "";
 	}
 
 	this.fileModified = function(filePath, fileName) {
