@@ -22,7 +22,7 @@ console.log("- WebSocket Server ready");
 
 
 console.log("---------------------------------");
-console.log("        Server loaded");
+console.log("        Server loaded.");
 console.log("---------------------------------");
 
 
