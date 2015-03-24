@@ -3,7 +3,7 @@
 
 	Checking code line length
 
-	@author 	Frederic Theriault
+	@author 	Frederic Theriault, Clément Contini
 */
 function LineLengthInspector() {
 	BaseInspector.call(this, 
