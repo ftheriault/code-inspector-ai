@@ -7,7 +7,7 @@
 	@author 	Frederic Theriault
 */
 
-
+console.log("");
 console.log("=================================");
 
 // Creating HTTP server
@@ -24,6 +24,9 @@ console.log("- WebSocket Server ready");
 console.log("---------------------------------");
 console.log("        Server loaded.");
 console.log("---------------------------------");
+console.log("");
+console.log("Please use Google Chrome and go to : http://localhost:8080");
+console.log("");
 
 
 var CodeUpdateListener = require('./CodeUpdateListener');
