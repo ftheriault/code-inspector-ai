@@ -20,11 +20,12 @@ public class Main {
 		int portNumber = 8000;
 		long start = System.currentTimeMillis();
 
+
 		try {
-		    Socket socket = new Socket(host_name, portNumber);
+			Socket socket = new Socket(host_name, portNumber);
 		    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-		    System.out.println("---------------------------");
+			System.out.println("---------------------------");
 
 			String line = null;
 			BufferedReader  reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
