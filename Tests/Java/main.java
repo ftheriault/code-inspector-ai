@@ -20,10 +20,9 @@ public class Main {
 		int portNumber = 8000;
 		long start = System.currentTimeMillis();
 
-
 		try {
 			Socket socket = new Socket(host_name, portNumber);
-		    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
 			System.out.println("---------------------------");
 
@@ -39,7 +38,6 @@ public class Main {
 			FrameImage img = new FrameImage(array);
 			img.setVisible(true);
 			img.repaint();
-
 
 			// If received As JPG
 			//BufferedImage image = ImageIO.read(socket.getInputStream());
