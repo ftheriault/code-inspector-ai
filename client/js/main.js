@@ -23,6 +23,7 @@ logicFileList.push("SpacingInspector");
 logicFileList.push("VariableConventionInspector");
 logicFileList.push("IndentationInspector");
 logicFileList.push("LineLengthInspector");
+logicFileList.push("WebSearchInspector");
 
 for (var i = 0; i < logicFileList.length; i++) {
 	loadLogicFile(logicFileList[i]);
@@ -58,4 +59,24 @@ function tick() {
 	inspector.tick();
 
 	window.requestAnimationFrame(tick);
+}
+
+function restRequest(method, url) {
+    var xhr = new XMLHttpRequest();
+    if ("withCredentials" in xhr) {
+        xhr.open(method, url, false);
+    } else if (typeof XDomainRequest != "undefined") {
+        xhr = new XDomainRequest();
+        xhr.open(method, url, false);
+    } else {
+        xhr = null;
+    }
+    if (!xhr) {
+        throw new Error('CORS not supported');
+    }
+    xhr.onerror = function() {
+          console.log('There was an error!' + xhr.statusText);
+    };
+    xhr.send()
+    return [xhr.response, xhr.status];
 }
