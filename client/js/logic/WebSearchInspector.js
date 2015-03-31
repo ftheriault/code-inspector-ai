@@ -20,8 +20,6 @@ WebSearchInspector.prototype.analyze = function(event) {
 	var lines = event.content.split('\n');
 	var keywords = [];
 
-    console.log("Executing web inspector");
-
 	for(var i = 0; i < lines.length; i++){
         if(lines[i].match(/\?\?\?/)) { // Look for the "???" string
             keywords = lines[i].split(/\W/).filter(function(el) { 
