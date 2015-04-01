@@ -39,21 +39,29 @@ WebSearchInspector.prototype.analyze = function(event) {
     if (stackanswer["items"].length > 0) {
         var message = "I have found " + stackanswer["items"].length +
             " ressources that could help you with your problem.";
-        var linkdisplay = "<table>";
+
+        var linkdisplay = "";
+
         for (item = 0; item < stackanswer["items"].length; ++item) {
-            linkdisplay += "<tr><td>Title</td><td>" + 
-                stackanswer["items"][item]["title"] + "</td></tr>";
-            linkdisplay += "<tr><td>Tags</td><td>" +
-                stackanswer["items"][item]["tags"].join(", ") + "</td></tr>";
-            linkdisplay += "<tr><td>Link</td><td><a href='" +
-                stackanswer["items"][item]["link"] + "'>Here</a></td></tr>";
+        	linkdisplay += "<div style='margin-top:10px;'>";
+            linkdisplay += "	<h4><a href='" + 
+            					stackanswer["items"][item]["link"] + 
+            					"' target='search_result'>" +  
+            					stackanswer["items"][item]["title"] + 
+            					"</a></h4>";
+            linkdisplay += "	<div><small>" + 
+            						stackanswer["items"][item]["tags"].join(", ") + 
+            					"</small></div>";
+            linkdisplay += "</div>";
         }
-        linkdisplay += "</table>";
+
+        linkdisplay += "</div>";
         inspector.prompt(linkdisplay);
     } else {
         var message = "I could not find any post related to your " +
             "current issue on stackoverflow.";
     }
-	this.notify(event.fileName, message);
+
+	this.notify(null, message);
 };
 
