@@ -16,15 +16,15 @@ import org.json.simple.JSONValue;
 public class Main {
 
 	public static void main(String[] args) {
-		String host_name = "192.168.1.115";
+			String host_name = "192.168.1.115";
 		int portNumber = 8000;
 		long start = System.currentTimeMillis();
 
 		try {
-		    Socket socket = new Socket(host_name, portNumber);
-		    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+			Socket socket = new Socket(host_name, portNumber);
+			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-		    System.out.println("---------------------------");
+			System.out.println("---------------------------");
 
 			String line = null;
 			BufferedReader  reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -39,7 +39,6 @@ public class Main {
 			img.setVisible(true);
 			img.repaint();
 
-
 			// If received As JPG
 			//BufferedImage image = ImageIO.read(socket.getInputStream());
 			//ImageIO.write(image, "jpg", new File("test.jpg"));
@@ -50,3 +49,4 @@ public class Main {
 		}
 	}
 }
+

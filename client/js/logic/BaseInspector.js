@@ -17,9 +17,12 @@ BaseInspector.prototype.alreadyNotified = function(key) {
 };
 
 BaseInspector.prototype.notify = function(key, speech) {
-	if (!this.alreadyNotified(key)) {
+	if (!this.alreadyNotified(key) || key == null) {
 		inspector.speak(speech);
-		this.alreadyNotifiedEvents[key] = "1";
+
+		if (key != null) {
+			this.alreadyNotifiedEvents[key] = "1";			
+		}
 	}
 };
 
