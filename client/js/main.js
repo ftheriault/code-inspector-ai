@@ -61,13 +61,13 @@ function tick() {
 	window.requestAnimationFrame(tick);
 }
 
-function restRequest(method, url) {
+function restRequest(method, url, callback) {
     var xhr = new XMLHttpRequest();
     if ("withCredentials" in xhr) {
-        xhr.open(method, url, false);
+        xhr.open(method, url);
     } else if (typeof XDomainRequest != "undefined") {
         xhr = new XDomainRequest();
-        xhr.open(method, url, false);
+        xhr.open(method, url);
     } else {
         xhr = null;
     }
@@ -76,7 +76,11 @@ function restRequest(method, url) {
     }
     xhr.onerror = function() {
           console.log('There was an error!' + xhr.statusText);
-    };
+    }
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState==4 && xhr.status==200) {
+            callback(xhr.response);
+        }
+    }
     xhr.send()
-    return [xhr.response, xhr.status];
 }
